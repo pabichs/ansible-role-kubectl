@@ -2,8 +2,9 @@
 kubectl_version: v1.32.0
 kubectl_k_shortcut: true
 
-kubectl_checksum_url: "sha512:https://cdn.dl.k8s.io/release/{{ kubectl_version }}/bin/{{ ansible_system | lower }}/{{ (ansible_architecture == 'x86_64') | ternary('amd64', 'arm64') }}/kubectl.sha512"
-kubectl_download_url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/{{ ansible_system | lower }}/{{ (ansible_architecture == 'x86_64') | ternary('amd64', 'arm64') }}/kubectl"
+_arch: "{{ (ansible_architecture == 'x86_64') | ternary('amd64', 'arm64') }}"
+kubectl_checksum_url: "sha512:https://cdn.dl.k8s.io/release/{{ kubectl_version }}/bin/{{ ansible_system | lower }}/{{ _arch }}/kubectl.sha512"
+kubectl_download_url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/{{ ansible_system | lower }}/{{ _arch }}/kubectl"
 
 kubectl_download_dir: /opt/
 kubectl_owner: root
