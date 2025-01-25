@@ -1,0 +1,27 @@
+---
+- name: Converge
+  hosts: all
+  become: yes
+  tasks:
+    - name: Run kubectl version
+      ansible.builtin.command:
+        cmd: kubectl version
+      register: kube_version_out
+      failed_when: false
+
+    - name: Assert kubectl version
+      ansible.builtin.assert:
+        that: "'{{ kubectl_version }}' in kube_version_out.stdout"
+
+    - name: Check status of the k shortcut
+      when: kubectl_k_shortcut
+      block:
+        - name: Run k version
+          ansible.builtin.command:
+            cmd: k version
+          register: k_version_out
+          failed_when: false
+
+        - name: Assert k version
+          ansible.builtin.assert:
+            that: "'{{ kubectl_version }}' in kube_version_out.stdout"
