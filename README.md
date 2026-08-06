@@ -8,9 +8,7 @@ This role downloads the Kubernetes `kubectl` binary for the current host archite
 
 ## Requirements
 
-- Ansible 2.1 or newer
-- A Linux host (tested on Ubuntu and Debian based systems)
-- Network access to `https://dl.k8s.io`
+None.
 
 ## Role Variables
 
