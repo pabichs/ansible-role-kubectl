@@ -13,7 +13,7 @@
     path: "{{ kubectl_install_dir | dirname }}/kubectl"
     src: "{{ kubectl_download_dir | dirname }}/kubectl"
     state: link
-  
+
 - name: Enable kubectl autocompletion
   ansible.builtin.include_tasks: autocompletion.yml
   when: kubectl_autocompletion
