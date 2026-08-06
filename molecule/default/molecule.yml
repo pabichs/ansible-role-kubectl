@@ -20,5 +20,4 @@ provisioner:
   inventory:
     host_vars:
       instance:
-        kubectl_version: "${KUBECTL_VERSION:-v1.32.0}"
-        kubectl_k_shortcut: false
+        kubectl_version: "${KUBECTL_VERSION:-v1.36.3}"
