@@ -27,7 +27,6 @@ jobs:
           - ubuntu2404
           - debian11
           - debian12
-          - rockylinux10
         kubectl_version:
           - v1.36.3
     steps:
