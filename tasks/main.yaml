@@ -1,0 +1,19 @@
+---
+- name: "Download kubectl version {{ kubectl_version }}"
+  ansible.builtin.get_url:
+    checksum: "{{ kubectl_checksum_url }}"
+    dest: "{{ kubectl_download_dir | dirname }}/kubectl"
+    url: "{{ kubectl_download_url }}"
+    owner: "{{ kubectl_owner }}"
+    group: "{{ kubectl_group }}"
+    mode: "{{ kubectl_mode }}"
+
+- name: Link kubectl binary
+  ansible.builtin.file:
+    path: "{{ kubectl_install_dir | dirname }}/kubectl"
+    src: "{{ kubectl_download_dir | dirname }}/kubectl"
+    state: link
+
+- name: Enable kubectl autocompletion
+  ansible.builtin.include_tasks: autocompletion.yml
+  when: kubectl_autocompletion

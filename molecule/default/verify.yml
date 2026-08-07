@@ -1,0 +1,14 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  tasks:
+    - name: Run kubectl version
+      ansible.builtin.command:
+        cmd: kubectl version --client
+      register: kube_version_out
+      changed_when: false
+
+    - name: Assert kubectl version
+      ansible.builtin.assert:
+        that: "'{{ kubectl_version }}' in kube_version_out.stdout"

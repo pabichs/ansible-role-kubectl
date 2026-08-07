@@ -1,0 +1,14 @@
+---
+kubectl_version: v1.36.3
+
+_arch: "{{ (ansible_facts['architecture'] == 'x86_64') | ternary('amd64', 'arm64') }}"
+kubectl_checksum_url: "sha512:https://dl.k8s.io/release/{{ kubectl_version }}/bin/{{ ansible_facts['system'] | lower }}/{{ _arch }}/kubectl.sha512"
+kubectl_download_url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/{{ ansible_facts['system'] | lower }}/{{ _arch }}/kubectl"
+
+kubectl_download_dir: /opt/
+kubectl_install_dir: /usr/local/bin/
+kubectl_owner: root
+kubectl_group: root
+kubectl_mode: "777"
+
+kubectl_autocompletion: true

@@ -1,0 +1,27 @@
+- name: Setup autocompletion
+  when: kubectl_autocompletion
+  block:
+    - name: Update apt cache.
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 600
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Ensure bash-completion
+      ansible.builtin.package:
+        name: bash-completion
+        state: present
+
+    - name: Generate kubectl completion script
+      ansible.builtin.command:
+        cmd: "{{ kubectl_install_dir | dirname }}/kubectl completion bash"
+      register: bash_completion
+      changed_when: false
+
+    - name: Set kubectl completion
+      ansible.builtin.copy:
+        content: "{{ bash_completion.stdout }}"
+        dest: /usr/share/bash-completion/completions/kubectl
+        owner: root
+        group: root
+        mode: "644"

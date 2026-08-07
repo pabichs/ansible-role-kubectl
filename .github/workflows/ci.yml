@@ -1,0 +1,51 @@
+name: CI
+on: [push]
+jobs:
+  ansible-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - name: Install test dependencies
+        run: python3 -m pip install --user ansible-lint
+
+      - name: Lint
+        run: ansible-lint .
+
+  molecule:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        distro:
+          - ubuntu2204
+          - ubuntu2404
+          - debian11
+          - debian12
+          - rockylinux10
+        kubectl_version:
+          - v1.36.3
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - name: Install test dependencies
+        run: python3 -m pip install --user --requirement requirements.txt
+
+      - name: Run Molecule
+        run: molecule test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_DISTRO: ${{ matrix.distro }}
+          KUBECTL_VERSION: ${{ matrix.kubectl_version }}
